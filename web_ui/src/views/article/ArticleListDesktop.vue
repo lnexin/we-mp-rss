@@ -960,11 +960,7 @@ const toggleMpStatus = async (mpId: string, newStatus: number) => {
   try {
     await toggleMpStatusApi(mpId, newStatus);
     Message.success(newStatus === 0 ? '公众号已禁用' : '公众号已启用');
-    // 更新本地数据
-    const index = mpList.value.findIndex(item => item.id === mpId);
-    if (index !== -1) {
-      mpList.value[index].status = newStatus;
-    }
+    await fetchMpList()
   } catch (error) {
     console.error('更新公众号状态失败:', error);
     Message.error('更新公众号状态失败');
